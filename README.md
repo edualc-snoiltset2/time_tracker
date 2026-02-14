@@ -1,7 +1,3 @@
-Here is a more detailed and extensive `README.md` for your project, with enhanced formatting and additional sections based on the new files you provided.
-
------
-
 # Time Tracker
 
 A comprehensive, cross-platform time tracking application built with Flutter. Manage clients, projects, and tasks, track your time, handle expenses, and generate professional invoices with ease.
@@ -21,7 +17,7 @@ This project is a robust time tracking and invoicing solution designed for freel
   * **Invoice Generation:** Generate professional PDF invoices from your time entries and expenses.
   * **Reporting & Analytics:** Visualize your tracked time and revenue with detailed reports and charts.
   * **Company Settings:** Customize your company details, logo, and invoice letterhead for a professional touch.
-  * **Cross-Platform:** A single codebase that runs on Android, iOS, Windows, macOS, and Linux.
+  * **Cross-Platform:** A single codebase that runs on Android, iOS, Windows, macOS, Linux, and Web.
 
 -----
 
@@ -63,7 +59,7 @@ To get a local copy up and running, follow these simple steps.
     ```
 4.  **Run the code generator**
     ```sh
-    dart run build_runner build
+    dart run build_runner build --delete-conflicting-outputs
     ```
 5.  **Run the app**
     ```sh
@@ -87,17 +83,46 @@ The application is organized into several main screens, each handling a specific
 
 -----
 
+## 📁 Project Structure
+
+```
+lib/
+├── main.dart                          # App entry point, Provider setup, theme
+├── database/
+│   ├── database.dart                  # Drift table definitions and database class
+│   └── database.g.dart                # Generated Drift code (DO NOT EDIT)
+├── models/
+│   └── line_item.dart                 # Invoice line item model with JSON serialization
+├── screens/
+│   ├── main_screen.dart               # Bottom navigation bar (8 tabs)
+│   ├── home_screen.dart               # Task/to-do list view
+│   ├── clients/                       # Client CRUD screens
+│   ├── projects/                      # Project CRUD screens
+│   ├── time_tracker/                  # Timer, time entry add/edit screens
+│   ├── invoices/                      # Invoice management and editing
+│   ├── expenses/                      # Expense tracking screens
+│   ├── reports/                       # Analytics and charts
+│   ├── settings/                      # Company settings configuration
+│   └── todos/                         # To-do editing screen
+└── utils/
+    └── pdf_generator.dart             # PDF invoice generation utility
+```
+
+-----
+
 ## 🗃️ Database Schema
 
-The application uses a local SQLite database managed by the **Drift** library. The schema is defined in `lib/database/database.dart` and consists of the following tables:
+The application uses a local SQLite database managed by the **Drift** library. The schema is defined in `lib/database/database.dart` (current schema version: **3**) and consists of the following tables:
 
   * **Clients:** Stores client information, including name, address, email, and currency.
   * **Projects:** Manages projects, each linked to a client, with details like name, hourly rate, and time limits.
-  * **TimeEntries:** Records individual time entries with descriptions, project associations, start/end times, and billable status.
+  * **TimeEntries:** Records individual time entries with descriptions, project associations, start/end times, and billable/billed/logged status flags.
   * **Expenses:** Keeps track of project-related expenses, including a description, amount, date, and associated project or client.
-  * **Invoices:** Stores generated invoices with details like invoice ID, client, issue/due dates, total amount, and line items.
+  * **Invoices:** Stores generated invoices with details like invoice ID, client, issue/due dates, total amount, and JSON-serialized line items.
   * **Todos:** A to-do list to manage tasks, with priorities, deadlines, and project links.
   * **CompanySettings:** A singleton table to store company-wide settings like name, address, logo, and invoice preferences.
+
+Foreign key relationships use **cascade delete** rules — deleting a client cascades to its projects, which in turn cascades to associated time entries, expenses, and todos.
 
 -----
 
@@ -119,6 +144,7 @@ This project relies on a set of powerful packages from the Dart and Flutter ecos
   * **`fl_chart`**: For creating beautiful charts.
   * **`intl`**: Provides internationalization and localization facilities, including date and number formatting.
   * **`file_picker`**: A package that allows you to use the native file explorer to pick files.
+  * **`image_picker`**: For picking images from camera or gallery (e.g., company logo).
   * **`uuid`**: For generating unique IDs.
   * **`cupertino_icons`**: Provides the Cupertino (iOS-style) icons.
 
