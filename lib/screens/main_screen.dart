@@ -21,9 +21,9 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  // This list now correctly references the imported screen classes.
-  final List<Widget> _screens = <Widget>[
-    const HomeScreen(),
+  // This list is built as a getter so HomeScreen can receive the navigation callback.
+  List<Widget> get _screens => <Widget>[
+    HomeScreen(onNavigateToTimer: () => _onItemTapped(1)),
     const TimeTrackerScreen(),
     const ProjectsScreen(),
     const ClientsScreen(),
