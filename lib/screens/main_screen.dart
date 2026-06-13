@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Import all of your screen files so this file knows what they are.
 import 'package:time_tracker/screens/clients/clients_screen.dart';
+import 'package:time_tracker/screens/discussions/discussions_screen.dart';
 import 'package:time_tracker/screens/expenses/expenses_screen.dart';
 import 'package:time_tracker/screens/home_screen.dart';
 import 'package:time_tracker/screens/invoices/invoices_screen.dart';
@@ -30,6 +31,7 @@ class _MainScreenState extends State<MainScreen> {
     const ExpensesScreen(),
     const InvoicesScreen(),
     const ReportsScreen(),
+    const DiscussionsScreen(),
     const SettingsScreen(),
   ];
 
@@ -41,6 +43,7 @@ class _MainScreenState extends State<MainScreen> {
     'Expenses',
     'Invoices',
     'Reports',
+    'Discussions',
     'Settings',
   ];
 
@@ -88,6 +91,10 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart),
             label: 'Reports',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.forum),
+            label: 'Discuss',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),

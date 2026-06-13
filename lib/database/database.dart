@@ -90,13 +90,34 @@ class CompanySettings extends Table {
   BoolColumn get showLetterhead => boolean().withDefault(const Constant(true))();
 }
 
+// Discussion board for a summer class: students and the teacher start topics
+// and reply to one another. A Discussion is a topic/thread; DiscussionPosts are
+// the messages within it (the first post is the topic's opening message).
+class Discussions extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get title => text()();
+  TextColumn get createdBy => text()(); // author name
+  TextColumn get authorRole => text()(); // 'Student' / 'Teacher'
+  DateTimeColumn get createdAt => dateTime()();
+}
 
-@DriftDatabase(tables: [Clients, Projects, TimeEntries, Expenses, Invoices, Todos, CompanySettings])
+class DiscussionPosts extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get discussionId =>
+      integer().references(Discussions, #id, onDelete: KeyAction.cascade)();
+  TextColumn get authorName => text()();
+  TextColumn get authorRole => text()(); // 'Student' / 'Teacher'
+  TextColumn get content => text()();
+  DateTimeColumn get createdAt => dateTime()();
+}
+
+
+@DriftDatabase(tables: [Clients, Projects, TimeEntries, Expenses, Invoices, Todos, CompanySettings, Discussions, DiscussionPosts])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 3; // FIX: Incremented schema version to 3
+  int get schemaVersion => 4; // FIX: Incremented schema version to 4
 
   // FIX: Added migration logic
   @override
@@ -109,6 +130,11 @@ class AppDatabase extends _$AppDatabase {
         if (from < 2) {
           // Migration from version 1 to 2
           await m.addColumn(timeEntries, timeEntries.isLogged);
+        }
+        if (from < 4) {
+          // Migration to version 4: add the class discussion board tables
+          await m.createTable(discussions);
+          await m.createTable(discussionPosts);
         }
         // Drift will handle recreating tables with the new cascade rules
         // automatically because of the schema version bump. For complex migrations,

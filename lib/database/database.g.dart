@@ -3483,6 +3483,770 @@ class CompanySettingsCompanion extends UpdateCompanion<CompanySetting> {
   }
 }
 
+class $DiscussionsTable extends Discussions
+    with TableInfo<$DiscussionsTable, Discussion> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DiscussionsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdByMeta = const VerificationMeta(
+    'createdBy',
+  );
+  @override
+  late final GeneratedColumn<String> createdBy = GeneratedColumn<String>(
+    'created_by',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _authorRoleMeta = const VerificationMeta(
+    'authorRole',
+  );
+  @override
+  late final GeneratedColumn<String> authorRole = GeneratedColumn<String>(
+    'author_role',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    title,
+    createdBy,
+    authorRole,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'discussions';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Discussion> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('created_by')) {
+      context.handle(
+        _createdByMeta,
+        createdBy.isAcceptableOrUnknown(data['created_by']!, _createdByMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdByMeta);
+    }
+    if (data.containsKey('author_role')) {
+      context.handle(
+        _authorRoleMeta,
+        authorRole.isAcceptableOrUnknown(data['author_role']!, _authorRoleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_authorRoleMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Discussion map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Discussion(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      createdBy: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_by'],
+      )!,
+      authorRole: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}author_role'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $DiscussionsTable createAlias(String alias) {
+    return $DiscussionsTable(attachedDatabase, alias);
+  }
+}
+
+class Discussion extends DataClass implements Insertable<Discussion> {
+  final int id;
+  final String title;
+  final String createdBy;
+  final String authorRole;
+  final DateTime createdAt;
+  const Discussion({
+    required this.id,
+    required this.title,
+    required this.createdBy,
+    required this.authorRole,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['title'] = Variable<String>(title);
+    map['created_by'] = Variable<String>(createdBy);
+    map['author_role'] = Variable<String>(authorRole);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  DiscussionsCompanion toCompanion(bool nullToAbsent) {
+    return DiscussionsCompanion(
+      id: Value(id),
+      title: Value(title),
+      createdBy: Value(createdBy),
+      authorRole: Value(authorRole),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory Discussion.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Discussion(
+      id: serializer.fromJson<int>(json['id']),
+      title: serializer.fromJson<String>(json['title']),
+      createdBy: serializer.fromJson<String>(json['createdBy']),
+      authorRole: serializer.fromJson<String>(json['authorRole']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'title': serializer.toJson<String>(title),
+      'createdBy': serializer.toJson<String>(createdBy),
+      'authorRole': serializer.toJson<String>(authorRole),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  Discussion copyWith({
+    int? id,
+    String? title,
+    String? createdBy,
+    String? authorRole,
+    DateTime? createdAt,
+  }) => Discussion(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    createdBy: createdBy ?? this.createdBy,
+    authorRole: authorRole ?? this.authorRole,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  Discussion copyWithCompanion(DiscussionsCompanion data) {
+    return Discussion(
+      id: data.id.present ? data.id.value : this.id,
+      title: data.title.present ? data.title.value : this.title,
+      createdBy: data.createdBy.present ? data.createdBy.value : this.createdBy,
+      authorRole: data.authorRole.present
+          ? data.authorRole.value
+          : this.authorRole,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Discussion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('createdBy: $createdBy, ')
+          ..write('authorRole: $authorRole, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, title, createdBy, authorRole, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Discussion &&
+          other.id == this.id &&
+          other.title == this.title &&
+          other.createdBy == this.createdBy &&
+          other.authorRole == this.authorRole &&
+          other.createdAt == this.createdAt);
+}
+
+class DiscussionsCompanion extends UpdateCompanion<Discussion> {
+  final Value<int> id;
+  final Value<String> title;
+  final Value<String> createdBy;
+  final Value<String> authorRole;
+  final Value<DateTime> createdAt;
+  const DiscussionsCompanion({
+    this.id = const Value.absent(),
+    this.title = const Value.absent(),
+    this.createdBy = const Value.absent(),
+    this.authorRole = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  DiscussionsCompanion.insert({
+    this.id = const Value.absent(),
+    required String title,
+    required String createdBy,
+    required String authorRole,
+    required DateTime createdAt,
+  }) : title = Value(title),
+       createdBy = Value(createdBy),
+       authorRole = Value(authorRole),
+       createdAt = Value(createdAt);
+  static Insertable<Discussion> custom({
+    Expression<int>? id,
+    Expression<String>? title,
+    Expression<String>? createdBy,
+    Expression<String>? authorRole,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (createdBy != null) 'created_by': createdBy,
+      if (authorRole != null) 'author_role': authorRole,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  DiscussionsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? title,
+    Value<String>? createdBy,
+    Value<String>? authorRole,
+    Value<DateTime>? createdAt,
+  }) {
+    return DiscussionsCompanion(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      createdBy: createdBy ?? this.createdBy,
+      authorRole: authorRole ?? this.authorRole,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (createdBy.present) {
+      map['created_by'] = Variable<String>(createdBy.value);
+    }
+    if (authorRole.present) {
+      map['author_role'] = Variable<String>(authorRole.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DiscussionsCompanion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('createdBy: $createdBy, ')
+          ..write('authorRole: $authorRole, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $DiscussionPostsTable extends DiscussionPosts
+    with TableInfo<$DiscussionPostsTable, DiscussionPost> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DiscussionPostsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _discussionIdMeta = const VerificationMeta(
+    'discussionId',
+  );
+  @override
+  late final GeneratedColumn<int> discussionId = GeneratedColumn<int>(
+    'discussion_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES discussions (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _authorNameMeta = const VerificationMeta(
+    'authorName',
+  );
+  @override
+  late final GeneratedColumn<String> authorName = GeneratedColumn<String>(
+    'author_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _authorRoleMeta = const VerificationMeta(
+    'authorRole',
+  );
+  @override
+  late final GeneratedColumn<String> authorRole = GeneratedColumn<String>(
+    'author_role',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contentMeta = const VerificationMeta(
+    'content',
+  );
+  @override
+  late final GeneratedColumn<String> content = GeneratedColumn<String>(
+    'content',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    discussionId,
+    authorName,
+    authorRole,
+    content,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'discussion_posts';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DiscussionPost> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('discussion_id')) {
+      context.handle(
+        _discussionIdMeta,
+        discussionId.isAcceptableOrUnknown(
+          data['discussion_id']!,
+          _discussionIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_discussionIdMeta);
+    }
+    if (data.containsKey('author_name')) {
+      context.handle(
+        _authorNameMeta,
+        authorName.isAcceptableOrUnknown(data['author_name']!, _authorNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_authorNameMeta);
+    }
+    if (data.containsKey('author_role')) {
+      context.handle(
+        _authorRoleMeta,
+        authorRole.isAcceptableOrUnknown(data['author_role']!, _authorRoleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_authorRoleMeta);
+    }
+    if (data.containsKey('content')) {
+      context.handle(
+        _contentMeta,
+        content.isAcceptableOrUnknown(data['content']!, _contentMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_contentMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DiscussionPost map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DiscussionPost(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      discussionId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}discussion_id'],
+      )!,
+      authorName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}author_name'],
+      )!,
+      authorRole: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}author_role'],
+      )!,
+      content: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $DiscussionPostsTable createAlias(String alias) {
+    return $DiscussionPostsTable(attachedDatabase, alias);
+  }
+}
+
+class DiscussionPost extends DataClass implements Insertable<DiscussionPost> {
+  final int id;
+  final int discussionId;
+  final String authorName;
+  final String authorRole;
+  final String content;
+  final DateTime createdAt;
+  const DiscussionPost({
+    required this.id,
+    required this.discussionId,
+    required this.authorName,
+    required this.authorRole,
+    required this.content,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['discussion_id'] = Variable<int>(discussionId);
+    map['author_name'] = Variable<String>(authorName);
+    map['author_role'] = Variable<String>(authorRole);
+    map['content'] = Variable<String>(content);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  DiscussionPostsCompanion toCompanion(bool nullToAbsent) {
+    return DiscussionPostsCompanion(
+      id: Value(id),
+      discussionId: Value(discussionId),
+      authorName: Value(authorName),
+      authorRole: Value(authorRole),
+      content: Value(content),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory DiscussionPost.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DiscussionPost(
+      id: serializer.fromJson<int>(json['id']),
+      discussionId: serializer.fromJson<int>(json['discussionId']),
+      authorName: serializer.fromJson<String>(json['authorName']),
+      authorRole: serializer.fromJson<String>(json['authorRole']),
+      content: serializer.fromJson<String>(json['content']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'discussionId': serializer.toJson<int>(discussionId),
+      'authorName': serializer.toJson<String>(authorName),
+      'authorRole': serializer.toJson<String>(authorRole),
+      'content': serializer.toJson<String>(content),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  DiscussionPost copyWith({
+    int? id,
+    int? discussionId,
+    String? authorName,
+    String? authorRole,
+    String? content,
+    DateTime? createdAt,
+  }) => DiscussionPost(
+    id: id ?? this.id,
+    discussionId: discussionId ?? this.discussionId,
+    authorName: authorName ?? this.authorName,
+    authorRole: authorRole ?? this.authorRole,
+    content: content ?? this.content,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  DiscussionPost copyWithCompanion(DiscussionPostsCompanion data) {
+    return DiscussionPost(
+      id: data.id.present ? data.id.value : this.id,
+      discussionId: data.discussionId.present
+          ? data.discussionId.value
+          : this.discussionId,
+      authorName: data.authorName.present
+          ? data.authorName.value
+          : this.authorName,
+      authorRole: data.authorRole.present
+          ? data.authorRole.value
+          : this.authorRole,
+      content: data.content.present ? data.content.value : this.content,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DiscussionPost(')
+          ..write('id: $id, ')
+          ..write('discussionId: $discussionId, ')
+          ..write('authorName: $authorName, ')
+          ..write('authorRole: $authorRole, ')
+          ..write('content: $content, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, discussionId, authorName, authorRole, content, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DiscussionPost &&
+          other.id == this.id &&
+          other.discussionId == this.discussionId &&
+          other.authorName == this.authorName &&
+          other.authorRole == this.authorRole &&
+          other.content == this.content &&
+          other.createdAt == this.createdAt);
+}
+
+class DiscussionPostsCompanion extends UpdateCompanion<DiscussionPost> {
+  final Value<int> id;
+  final Value<int> discussionId;
+  final Value<String> authorName;
+  final Value<String> authorRole;
+  final Value<String> content;
+  final Value<DateTime> createdAt;
+  const DiscussionPostsCompanion({
+    this.id = const Value.absent(),
+    this.discussionId = const Value.absent(),
+    this.authorName = const Value.absent(),
+    this.authorRole = const Value.absent(),
+    this.content = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  DiscussionPostsCompanion.insert({
+    this.id = const Value.absent(),
+    required int discussionId,
+    required String authorName,
+    required String authorRole,
+    required String content,
+    required DateTime createdAt,
+  }) : discussionId = Value(discussionId),
+       authorName = Value(authorName),
+       authorRole = Value(authorRole),
+       content = Value(content),
+       createdAt = Value(createdAt);
+  static Insertable<DiscussionPost> custom({
+    Expression<int>? id,
+    Expression<int>? discussionId,
+    Expression<String>? authorName,
+    Expression<String>? authorRole,
+    Expression<String>? content,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (discussionId != null) 'discussion_id': discussionId,
+      if (authorName != null) 'author_name': authorName,
+      if (authorRole != null) 'author_role': authorRole,
+      if (content != null) 'content': content,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  DiscussionPostsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? discussionId,
+    Value<String>? authorName,
+    Value<String>? authorRole,
+    Value<String>? content,
+    Value<DateTime>? createdAt,
+  }) {
+    return DiscussionPostsCompanion(
+      id: id ?? this.id,
+      discussionId: discussionId ?? this.discussionId,
+      authorName: authorName ?? this.authorName,
+      authorRole: authorRole ?? this.authorRole,
+      content: content ?? this.content,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (discussionId.present) {
+      map['discussion_id'] = Variable<int>(discussionId.value);
+    }
+    if (authorName.present) {
+      map['author_name'] = Variable<String>(authorName.value);
+    }
+    if (authorRole.present) {
+      map['author_role'] = Variable<String>(authorRole.value);
+    }
+    if (content.present) {
+      map['content'] = Variable<String>(content.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DiscussionPostsCompanion(')
+          ..write('id: $id, ')
+          ..write('discussionId: $discussionId, ')
+          ..write('authorName: $authorName, ')
+          ..write('authorRole: $authorRole, ')
+          ..write('content: $content, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -3493,6 +4257,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $InvoicesTable invoices = $InvoicesTable(this);
   late final $TodosTable todos = $TodosTable(this);
   late final $CompanySettingsTable companySettings = $CompanySettingsTable(
+    this,
+  );
+  late final $DiscussionsTable discussions = $DiscussionsTable(this);
+  late final $DiscussionPostsTable discussionPosts = $DiscussionPostsTable(
     this,
   );
   @override
@@ -3507,6 +4275,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     invoices,
     todos,
     companySettings,
+    discussions,
+    discussionPosts,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -3551,6 +4321,13 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('todos', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'discussions',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('discussion_posts', kind: UpdateKind.delete)],
     ),
   ]);
 }
@@ -6571,6 +7348,660 @@ typedef $$CompanySettingsTableProcessedTableManager =
       CompanySetting,
       PrefetchHooks Function()
     >;
+typedef $$DiscussionsTableCreateCompanionBuilder =
+    DiscussionsCompanion Function({
+      Value<int> id,
+      required String title,
+      required String createdBy,
+      required String authorRole,
+      required DateTime createdAt,
+    });
+typedef $$DiscussionsTableUpdateCompanionBuilder =
+    DiscussionsCompanion Function({
+      Value<int> id,
+      Value<String> title,
+      Value<String> createdBy,
+      Value<String> authorRole,
+      Value<DateTime> createdAt,
+    });
+
+final class $$DiscussionsTableReferences
+    extends BaseReferences<_$AppDatabase, $DiscussionsTable, Discussion> {
+  $$DiscussionsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$DiscussionPostsTable, List<DiscussionPost>>
+  _discussionPostsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.discussionPosts,
+    aliasName: $_aliasNameGenerator(
+      db.discussions.id,
+      db.discussionPosts.discussionId,
+    ),
+  );
+
+  $$DiscussionPostsTableProcessedTableManager get discussionPostsRefs {
+    final manager = $$DiscussionPostsTableTableManager(
+      $_db,
+      $_db.discussionPosts,
+    ).filter((f) => f.discussionId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _discussionPostsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$DiscussionsTableFilterComposer
+    extends Composer<_$AppDatabase, $DiscussionsTable> {
+  $$DiscussionsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdBy => $composableBuilder(
+    column: $table.createdBy,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get authorRole => $composableBuilder(
+    column: $table.authorRole,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> discussionPostsRefs(
+    Expression<bool> Function($$DiscussionPostsTableFilterComposer f) f,
+  ) {
+    final $$DiscussionPostsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.discussionPosts,
+      getReferencedColumn: (t) => t.discussionId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiscussionPostsTableFilterComposer(
+            $db: $db,
+            $table: $db.discussionPosts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$DiscussionsTableOrderingComposer
+    extends Composer<_$AppDatabase, $DiscussionsTable> {
+  $$DiscussionsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdBy => $composableBuilder(
+    column: $table.createdBy,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get authorRole => $composableBuilder(
+    column: $table.authorRole,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$DiscussionsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DiscussionsTable> {
+  $$DiscussionsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get createdBy =>
+      $composableBuilder(column: $table.createdBy, builder: (column) => column);
+
+  GeneratedColumn<String> get authorRole => $composableBuilder(
+    column: $table.authorRole,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  Expression<T> discussionPostsRefs<T extends Object>(
+    Expression<T> Function($$DiscussionPostsTableAnnotationComposer a) f,
+  ) {
+    final $$DiscussionPostsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.discussionPosts,
+      getReferencedColumn: (t) => t.discussionId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiscussionPostsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.discussionPosts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$DiscussionsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DiscussionsTable,
+          Discussion,
+          $$DiscussionsTableFilterComposer,
+          $$DiscussionsTableOrderingComposer,
+          $$DiscussionsTableAnnotationComposer,
+          $$DiscussionsTableCreateCompanionBuilder,
+          $$DiscussionsTableUpdateCompanionBuilder,
+          (Discussion, $$DiscussionsTableReferences),
+          Discussion,
+          PrefetchHooks Function({bool discussionPostsRefs})
+        > {
+  $$DiscussionsTableTableManager(_$AppDatabase db, $DiscussionsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DiscussionsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DiscussionsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DiscussionsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String> createdBy = const Value.absent(),
+                Value<String> authorRole = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => DiscussionsCompanion(
+                id: id,
+                title: title,
+                createdBy: createdBy,
+                authorRole: authorRole,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String title,
+                required String createdBy,
+                required String authorRole,
+                required DateTime createdAt,
+              }) => DiscussionsCompanion.insert(
+                id: id,
+                title: title,
+                createdBy: createdBy,
+                authorRole: authorRole,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$DiscussionsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({discussionPostsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (discussionPostsRefs) db.discussionPosts,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (discussionPostsRefs)
+                    await $_getPrefetchedData<
+                      Discussion,
+                      $DiscussionsTable,
+                      DiscussionPost
+                    >(
+                      currentTable: table,
+                      referencedTable: $$DiscussionsTableReferences
+                          ._discussionPostsRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$DiscussionsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).discussionPostsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.discussionId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$DiscussionsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DiscussionsTable,
+      Discussion,
+      $$DiscussionsTableFilterComposer,
+      $$DiscussionsTableOrderingComposer,
+      $$DiscussionsTableAnnotationComposer,
+      $$DiscussionsTableCreateCompanionBuilder,
+      $$DiscussionsTableUpdateCompanionBuilder,
+      (Discussion, $$DiscussionsTableReferences),
+      Discussion,
+      PrefetchHooks Function({bool discussionPostsRefs})
+    >;
+typedef $$DiscussionPostsTableCreateCompanionBuilder =
+    DiscussionPostsCompanion Function({
+      Value<int> id,
+      required int discussionId,
+      required String authorName,
+      required String authorRole,
+      required String content,
+      required DateTime createdAt,
+    });
+typedef $$DiscussionPostsTableUpdateCompanionBuilder =
+    DiscussionPostsCompanion Function({
+      Value<int> id,
+      Value<int> discussionId,
+      Value<String> authorName,
+      Value<String> authorRole,
+      Value<String> content,
+      Value<DateTime> createdAt,
+    });
+
+final class $$DiscussionPostsTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $DiscussionPostsTable, DiscussionPost> {
+  $$DiscussionPostsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $DiscussionsTable _discussionIdTable(_$AppDatabase db) =>
+      db.discussions.createAlias(
+        $_aliasNameGenerator(
+          db.discussionPosts.discussionId,
+          db.discussions.id,
+        ),
+      );
+
+  $$DiscussionsTableProcessedTableManager get discussionId {
+    final $_column = $_itemColumn<int>('discussion_id')!;
+
+    final manager = $$DiscussionsTableTableManager(
+      $_db,
+      $_db.discussions,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_discussionIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$DiscussionPostsTableFilterComposer
+    extends Composer<_$AppDatabase, $DiscussionPostsTable> {
+  $$DiscussionPostsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get authorName => $composableBuilder(
+    column: $table.authorName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get authorRole => $composableBuilder(
+    column: $table.authorRole,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get content => $composableBuilder(
+    column: $table.content,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$DiscussionsTableFilterComposer get discussionId {
+    final $$DiscussionsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.discussionId,
+      referencedTable: $db.discussions,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiscussionsTableFilterComposer(
+            $db: $db,
+            $table: $db.discussions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DiscussionPostsTableOrderingComposer
+    extends Composer<_$AppDatabase, $DiscussionPostsTable> {
+  $$DiscussionPostsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get authorName => $composableBuilder(
+    column: $table.authorName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get authorRole => $composableBuilder(
+    column: $table.authorRole,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get content => $composableBuilder(
+    column: $table.content,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$DiscussionsTableOrderingComposer get discussionId {
+    final $$DiscussionsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.discussionId,
+      referencedTable: $db.discussions,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiscussionsTableOrderingComposer(
+            $db: $db,
+            $table: $db.discussions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DiscussionPostsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DiscussionPostsTable> {
+  $$DiscussionPostsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get authorName => $composableBuilder(
+    column: $table.authorName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get authorRole => $composableBuilder(
+    column: $table.authorRole,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get content =>
+      $composableBuilder(column: $table.content, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$DiscussionsTableAnnotationComposer get discussionId {
+    final $$DiscussionsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.discussionId,
+      referencedTable: $db.discussions,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiscussionsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.discussions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DiscussionPostsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DiscussionPostsTable,
+          DiscussionPost,
+          $$DiscussionPostsTableFilterComposer,
+          $$DiscussionPostsTableOrderingComposer,
+          $$DiscussionPostsTableAnnotationComposer,
+          $$DiscussionPostsTableCreateCompanionBuilder,
+          $$DiscussionPostsTableUpdateCompanionBuilder,
+          (DiscussionPost, $$DiscussionPostsTableReferences),
+          DiscussionPost,
+          PrefetchHooks Function({bool discussionId})
+        > {
+  $$DiscussionPostsTableTableManager(
+    _$AppDatabase db,
+    $DiscussionPostsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DiscussionPostsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DiscussionPostsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DiscussionPostsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> discussionId = const Value.absent(),
+                Value<String> authorName = const Value.absent(),
+                Value<String> authorRole = const Value.absent(),
+                Value<String> content = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => DiscussionPostsCompanion(
+                id: id,
+                discussionId: discussionId,
+                authorName: authorName,
+                authorRole: authorRole,
+                content: content,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int discussionId,
+                required String authorName,
+                required String authorRole,
+                required String content,
+                required DateTime createdAt,
+              }) => DiscussionPostsCompanion.insert(
+                id: id,
+                discussionId: discussionId,
+                authorName: authorName,
+                authorRole: authorRole,
+                content: content,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$DiscussionPostsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({discussionId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (discussionId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.discussionId,
+                                referencedTable:
+                                    $$DiscussionPostsTableReferences
+                                        ._discussionIdTable(db),
+                                referencedColumn:
+                                    $$DiscussionPostsTableReferences
+                                        ._discussionIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$DiscussionPostsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DiscussionPostsTable,
+      DiscussionPost,
+      $$DiscussionPostsTableFilterComposer,
+      $$DiscussionPostsTableOrderingComposer,
+      $$DiscussionPostsTableAnnotationComposer,
+      $$DiscussionPostsTableCreateCompanionBuilder,
+      $$DiscussionPostsTableUpdateCompanionBuilder,
+      (DiscussionPost, $$DiscussionPostsTableReferences),
+      DiscussionPost,
+      PrefetchHooks Function({bool discussionId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -6589,4 +8020,8 @@ class $AppDatabaseManager {
       $$TodosTableTableManager(_db, _db.todos);
   $$CompanySettingsTableTableManager get companySettings =>
       $$CompanySettingsTableTableManager(_db, _db.companySettings);
+  $$DiscussionsTableTableManager get discussions =>
+      $$DiscussionsTableTableManager(_db, _db.discussions);
+  $$DiscussionPostsTableTableManager get discussionPosts =>
+      $$DiscussionPostsTableTableManager(_db, _db.discussionPosts);
 }
