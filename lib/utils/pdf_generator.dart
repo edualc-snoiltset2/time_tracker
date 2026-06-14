@@ -6,6 +6,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:time_tracker/database/database.dart';
 import 'package:time_tracker/models/line_item.dart';
+import 'package:time_tracker/utils/downloads_manager.dart';
 
 Future<void> generateAndShowInvoice({
   required Invoice invoice,
@@ -41,8 +42,13 @@ Future<void> generateAndShowInvoice({
     ),
   );
 
-  await Printing.layoutPdf(
-      onLayout: (PdfPageFormat format) async => pdf.save());
+  final bytes = await pdf.save();
+
+  // Keep a copy in the app's downloads directory so invoices can be re-opened
+  // later. These accumulate over time and can be pruned from Settings.
+  await DownloadsManager().saveInvoicePdf(invoice.invoiceIdString, bytes);
+
+  await Printing.layoutPdf(onLayout: (PdfPageFormat format) async => bytes);
 }
 
 pw.Widget _buildHeader(pw.Context context, CompanySetting settings, pw.Font font, pw.Font boldFont) {
