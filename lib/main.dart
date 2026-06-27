@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker/database/database.dart';
-import 'package:time_tracker/screens/main_screen.dart'; // Import the main screen with the navigation bar
+import 'package:time_tracker/screens/auth/sign_in_screen.dart'; // Facebook-style sign in page
 
 void main() {
   runApp(
@@ -38,8 +38,8 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.deepPurple,
         ),
       ),
-      // Use MainScreen as the home widget
-      home: const MainScreen(),
+      // Start on the sign in page; it navigates to MainScreen on log in
+      home: const SignInScreen(),
     );
   }
 }
