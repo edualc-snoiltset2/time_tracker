@@ -1,0 +1,202 @@
+:root {
+  --fb-blue: #1877f2;
+  --fb-green: #42b72a;
+  --fb-green-hover: #36a420;
+  --field-border: #dddfe2;
+  --text-dark: #1c1e21;
+  --text-muted: #606770;
+  --bg: #f0f2f5;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Helvetica, Arial, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg);
+  color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 56px;
+  flex-wrap: wrap;
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 16px;
+}
+
+/* Hero / left side */
+.hero {
+  max-width: 500px;
+  flex: 1 1 320px;
+}
+
+.logo {
+  color: var(--fb-blue);
+  font-size: 60px;
+  font-weight: bold;
+  letter-spacing: -3px;
+  margin-bottom: 8px;
+}
+
+.tagline {
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 400;
+}
+
+/* Login panel / right side */
+.login-panel {
+  flex: 0 1 396px;
+  width: 100%;
+}
+
+.login-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.field {
+  width: 100%;
+  font-size: 17px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--field-border);
+  border-radius: 6px;
+  color: var(--text-dark);
+}
+
+.field:focus {
+  outline: none;
+  border-color: var(--fb-blue);
+  box-shadow: 0 0 0 2px #e7f3ff;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--fb-blue);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.error {
+  color: #f02849;
+  font-size: 14px;
+  min-height: 18px;
+  margin-bottom: 8px;
+}
+
+.btn {
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: filter 0.1s ease;
+}
+
+.btn:hover {
+  filter: brightness(0.96);
+}
+
+.btn-login {
+  background-color: var(--fb-blue);
+  color: #fff;
+  font-size: 20px;
+  padding: 12px;
+}
+
+.forgot-link {
+  display: block;
+  text-align: center;
+  color: var(--fb-blue);
+  font-size: 14px;
+  text-decoration: none;
+  margin: 16px 0;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--field-border);
+  margin: 4px 0 20px;
+}
+
+.btn-create {
+  background-color: var(--fb-green);
+  color: #fff;
+  font-size: 17px;
+  padding: 12px 16px;
+  align-self: center;
+  width: auto;
+}
+
+.btn-create:hover {
+  background-color: var(--fb-green-hover);
+  filter: none;
+}
+
+.create-page {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 28px;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 24px 16px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.footer-brand {
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+    gap: 24px;
+    text-align: center;
+  }
+
+  .logo {
+    font-size: 48px;
+  }
+
+  .tagline {
+    font-size: 22px;
+    line-height: 26px;
+  }
+}
