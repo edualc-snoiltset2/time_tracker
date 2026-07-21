@@ -1,0 +1,18 @@
+{
+  "urls": [
+    "https://quotes.toscrape.com/",
+    "https://quotes.toscrape.com/page/2/"
+  ],
+  "row_selector": "div.quote",
+  "fields": {
+    "quote": "span.text",
+    "author": "small.author",
+    "tags": "div.tags a.tag[]",
+    "author_link": "span a@href"
+  },
+  "delay": 1.0,
+  "timeout": 20.0,
+  "max_retries": 3,
+  "respect_robots": true,
+  "user_agent": "time-tracker-scraper/1.0 (+https://github.com/edualc-snoiltset2/time_tracker)"
+}
