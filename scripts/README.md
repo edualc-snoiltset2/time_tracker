@@ -91,6 +91,40 @@ df = pd.read_csv("data.csv")   # or pd.read_json("data.json")
 print(df.describe(include="all"))
 ```
 
+## Google Play reviews → Excel
+
+`duolingo_reviews_to_excel.py` scrapes user reviews from the Google Play Store
+(default app: Duolingo, `com.duolingo`) and writes a formatted `.xlsx` with a
+`Reviews` sheet (frozen header + autofilter) and a `Summary` sheet (total,
+average rating, star distribution).
+
+```bash
+pip install -r requirements-scraper.txt
+
+# Up to 500 Duolingo reviews (the default), newest first
+python duolingo_reviews_to_excel.py --out duolingo_reviews.xlsx
+
+# Customize: count, sort, language/country, any app id
+python duolingo_reviews_to_excel.py --app-id com.duolingo \
+  --max-reviews 1000 --sort newest --lang en --country us --out reviews.xlsx
+
+# Preview the Excel layout offline, no network needed (sample data)
+python duolingo_reviews_to_excel.py --demo --max-reviews 25 --out sample.xlsx
+```
+
+| Flag | Default | Meaning |
+|------|---------|---------|
+| `--app-id` | `com.duolingo` | Play Store application id |
+| `--max-reviews` | `500` | Maximum reviews to collect (paginated automatically) |
+| `--sort` | `newest` | `newest`, `rating`, or `relevance` |
+| `--lang` / `--country` | `en` / `us` | Review language and store region |
+| `--out` | `duolingo_reviews.xlsx` | Output workbook path |
+| `--demo` | off | Generate sample rows without network (format preview) |
+
+> **Network note:** this must be run in an environment with outbound internet
+> access. It cannot fetch reviews from a sandbox whose egress policy blocks
+> `play.google.com`.
+
 ## Responsible use
 
 Only scrape sites you are permitted to. Respect each site's Terms of Service
